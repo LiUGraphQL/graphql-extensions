@@ -15,7 +15,10 @@ export class GraphQLExtension<TContext = any> {
 
   validationDidStart?(): void;
   validationDidEnd?(): void;
-
+                              
+  calculationDidStart?(): void;
+  calculationDidEnd?(): void;
+                              
   executionDidStart?(): void;
 
   willResolveField?(
@@ -80,7 +83,23 @@ export class GraphQLExtensionStack<TContext = any> {
       }
     }
   }
-
+                              
+  calculationDidStart() {
+    for (const extension of this.extensions) {
+      if (extension.validationDidStart) {
+        extension.validationDidStart();
+      }
+    }
+  }
+                              
+  calculationDidEnd() {
+    for (const extension of this.extensions) {
+      if (extension.calculationDidEnd) {
+        extension.calculationDidEnd();
+      }
+    }
+  }
+                              
   executionDidStart() {
     for (const extension of this.extensions) {
       if (extension.executionDidStart) {
@@ -88,7 +107,7 @@ export class GraphQLExtensionStack<TContext = any> {
       }
     }
   }
-
+                              
   willResolveField(
     source: any,
     args: { [argName: string]: any },
