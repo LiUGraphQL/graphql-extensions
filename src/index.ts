@@ -86,8 +86,8 @@ export class GraphQLExtensionStack<TContext = any> {
                               
   calculationDidStart() {
     for (const extension of this.extensions) {
-      if (extension.validationDidStart) {
-        extension.validationDidStart();
+      if (extension.calculationDidStart) {
+        extension.calculationDidStart();
       }
     }
   }
